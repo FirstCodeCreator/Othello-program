@@ -87,8 +87,9 @@ void Game::start()
 		else if (position == 4) { board.setBoard(arr4); }
 	}
 
-	for (int i = 0; i < 10; i++){
-		printf("\n\n\n\n\n\n\n\n\n\n");
+	for (int i = 0; i < 10; i++) {
+		//printf("\n\n\n\n\n\n\n\n\n\n");
+		cout << string(100, '\n');
 	}
 
 	board.play();
