@@ -24,5 +24,7 @@ public:
 	void play();
 	void setBoard(char boardValue[8][8]);
 	char* getBoard();
+
+	bool canPlay(Player p);
 };
 

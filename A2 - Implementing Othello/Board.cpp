@@ -64,7 +64,20 @@ void Board::save()
 
 void Board::takeTurn()
 {
-	cout << "Taking turn of " << current.getName() << endl;
+	string inputPosition;
+	int positionX;
+	int positionY;
+
+	cout << "\nTaking turn of " << current.getName() << endl;
+	cout << "Choose an (x,y) position (ex: A3):" << endl;
+	cin >> inputPosition;
+
+	//check if the user can play it there
+
+	//play it there
+	//board[positionX][positionY] = current.getName().compare(first.getName()) == 0 ? 'B' : 'W';
+
+	//flip if needed
 
 
 	// change the name of the current user
@@ -137,7 +150,7 @@ void Board::play()
 	int option=3;
 	while (option==3)
 	{
-		if (false) ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////nobody canmove)
+		if (!canPlay(first) && !canPlay(second)) ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////nobody canmove)
 		{
 			cout << "Nobody can move :(" << endl;
 
@@ -169,9 +182,9 @@ void Board::play()
 		}
 		else if (current.getName().compare(first.getName()) == 0)
 		{
-			cout << first.getName() << ", what do you want to do?" << endl;
+			cout << endl << first.getName() << ", what do you want to do?" << endl;
 			cout << "1.Save \n2.Concede" << endl;
-			if (true)////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////canmove)
+			if (canPlay(first))////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////canmove)
 			{
 				cout << "3.Move" << endl;
 			}
@@ -191,9 +204,9 @@ void Board::play()
 
 		else if(current.getName().compare(second.getName()) == 0)
 		{
-			cout << second.getName() << ", what do you want to do?" << endl;
+			cout << endl << second.getName() << ", what do you want to do?" << endl;
 			cout << "1.Save \n2.Concede" << endl;
-			if (true)////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////canmove)
+			if (canPlay(second))////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////canmove)
 			{
 				cout << "3.Move" << endl;
 				cin >> option;
@@ -212,7 +225,7 @@ void Board::play()
 				switch (option)
 				{
 				case 1: save(); option = -1; break;
-				case 2: cout << current.getName() << "conceded and have lost :(" << endl;; option = -1; break;
+				case 2: cout << current.getName() << " conceded and have lost :(" << endl;; option = -1; break;
 				default: break;
 				}
 			}
@@ -234,4 +247,135 @@ void Board::setBoard(char boardValue[8][8])
 char* Board::getBoard()
 {
 	return *board;
+}
+
+bool Board::canPlay(Player p)
+{
+	//check which player it is
+	char playerColor = p.getName().compare(first.getName()) == 0 ? 'B' : 'W';
+	char oppositeColor = playerColor == 'B' ? 'W' : 'B';
+	
+	//check every square
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 8; j++)
+		{
+			//for every piece of the player
+			if (board[i][j] == playerColor) 
+			{
+
+
+				int tempX = i; 
+				int tempY = j;
+				//check for adjacent piece to the left
+				if (i > 0)
+				{
+					if (board[i - 1][j] == oppositeColor)
+					{
+						while (tempX > 0)
+						{
+							tempX--;
+
+							if (board[tempX][j] == oppositeColor)
+							{
+								continue;
+							}
+							else if (board[tempX][j] == playerColor)
+							{
+								break;
+							}
+							else if (board[tempX][j] == ' ')
+							{
+								return true;
+							}
+						}
+					}
+				}
+				
+
+				if (j > 0)
+				{
+					tempX = i;
+					tempY = j;
+					//check for adjacent piece to the top
+					if (board[i][j - 1] == oppositeColor)
+					{
+						while (tempY > 0)
+						{
+							tempY--;
+
+							if (board[i][tempY] == oppositeColor)
+							{
+								continue;
+							}
+							else if (board[i][tempY] == playerColor)
+							{
+								break;
+							}
+							else if (board[i][tempY] == ' ')
+							{
+								return true;
+							}
+						}
+					}
+				}
+
+				if (i < 7)
+				{
+					tempX = i;
+					tempY = j;
+					//check for adjacent piece to the right
+					if (board[i + 1][j] == oppositeColor)
+					{
+						while (tempX < 7)
+						{
+							tempX++;
+
+							if (board[tempX][j] == oppositeColor)
+							{
+								continue;
+							}
+							else if (board[tempX][j] == playerColor)
+							{
+								break;
+							}
+							else if (board[tempX][j] == ' ')
+							{
+								return true;
+							}
+						}
+					}
+				}
+
+				if (j < 7)
+				{
+					tempX = i;
+					tempY = j;
+					//check for adjacent piece to the bottom
+					if (board[i][j + 1] == oppositeColor)
+					{
+						while (tempY < 7)
+						{
+							tempY++;
+
+							if (board[i][tempY] == oppositeColor)
+							{
+								continue;
+							}
+							else if (board[i][tempY] == playerColor)
+							{
+								break;
+							}
+							else if (board[i][tempY] == ' ')
+							{
+								return true;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	return false;
 }

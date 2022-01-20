@@ -67,12 +67,22 @@ void Game::start()
 		board.drawBoard();
 		cout << "\n";
 
-		char arr4[8][8] = { {UnplayablePosition::UNPLAYABLE,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,UnplayablePosition::UNPLAYABLE},
+		/*char arr4[8][8] = {{UnplayablePosition::UNPLAYABLE,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,UnplayablePosition::UNPLAYABLE},
 							{Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY},
 							{Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY},
 							{Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY},
 							{Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::WHITE,Position::BLACK,Position::EMPTY,Position::EMPTY},
 							{Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::BLACK,Position::WHITE,Position::EMPTY,Position::EMPTY},
+							{Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY},
+							{UnplayablePosition::UNPLAYABLE,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,UnplayablePosition::UNPLAYABLE} };*/
+		
+		// used to test the if the white cannot move
+		char arr4[8][8] = {{UnplayablePosition::UNPLAYABLE,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,UnplayablePosition::UNPLAYABLE},
+							{Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY},
+							{Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY},
+							{Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::WHITE,Position::EMPTY,Position::EMPTY},
+							{Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::WHITE,Position::BLACK,Position::WHITE,Position::EMPTY},
+							{Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::WHITE,Position::BLACK,Position::WHITE,Position::EMPTY,Position::EMPTY},
 							{Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY},
 							{UnplayablePosition::UNPLAYABLE,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,UnplayablePosition::UNPLAYABLE} };
 		board.setBoard(arr4);
