@@ -26,5 +26,7 @@ public:
 	char* getBoard();
 
 	bool canPlay(Player p);
+	void flip(int row,int col);
+	void showPoints();
 };
 

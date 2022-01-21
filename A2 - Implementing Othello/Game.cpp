@@ -67,24 +67,34 @@ void Game::start()
 		board.drawBoard();
 		cout << "\n";
 
-		/*char arr4[8][8] = {{UnplayablePosition::UNPLAYABLE,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,UnplayablePosition::UNPLAYABLE},
+		char arr4[8][8] = {{UnplayablePosition::UNPLAYABLE,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,UnplayablePosition::UNPLAYABLE},
 							{Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY},
 							{Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY},
 							{Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY},
 							{Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::WHITE,Position::BLACK,Position::EMPTY,Position::EMPTY},
 							{Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::BLACK,Position::WHITE,Position::EMPTY,Position::EMPTY},
 							{Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY},
-							{UnplayablePosition::UNPLAYABLE,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,UnplayablePosition::UNPLAYABLE} };*/
+							{UnplayablePosition::UNPLAYABLE,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,UnplayablePosition::UNPLAYABLE} };
 		
 		// used to test the if the white cannot move
-		char arr4[8][8] = {{UnplayablePosition::UNPLAYABLE,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,UnplayablePosition::UNPLAYABLE},
+		/*char arr4[8][8] = {{UnplayablePosition::UNPLAYABLE,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,UnplayablePosition::UNPLAYABLE},
 							{Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY},
 							{Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY},
 							{Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::WHITE,Position::EMPTY,Position::EMPTY},
 							{Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::WHITE,Position::BLACK,Position::WHITE,Position::EMPTY},
 							{Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::WHITE,Position::BLACK,Position::WHITE,Position::EMPTY,Position::EMPTY},
 							{Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY},
-							{UnplayablePosition::UNPLAYABLE,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,UnplayablePosition::UNPLAYABLE} };
+							{UnplayablePosition::UNPLAYABLE,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,Position::EMPTY,UnplayablePosition::UNPLAYABLE} };*/
+
+		// used to test an end game event
+		/*char arr4[8][8] = {{UnplayablePosition::UNPLAYABLE,Position::EMPTY,Position::WHITE,Position::WHITE,Position::WHITE,Position::WHITE,Position::WHITE,UnplayablePosition::UNPLAYABLE},
+							{Position::WHITE,Position::WHITE,Position::WHITE,Position::WHITE,Position::WHITE,Position::WHITE,Position::WHITE,Position::BLACK},
+							{Position::WHITE,Position::WHITE,Position::WHITE,Position::WHITE,Position::WHITE,Position::WHITE,Position::WHITE,Position::WHITE},
+							{Position::WHITE,Position::WHITE,Position::WHITE,Position::WHITE,Position::WHITE,Position::WHITE,Position::WHITE,Position::WHITE},
+							{Position::WHITE,Position::WHITE,Position::WHITE,Position::WHITE,Position::WHITE,Position::BLACK,Position::WHITE,Position::WHITE},
+							{Position::BLACK,Position::BLACK,Position::BLACK,Position::WHITE,Position::BLACK,Position::WHITE,Position::BLACK,Position::BLACK},
+							{Position::BLACK,Position::BLACK,Position::BLACK,Position::BLACK,Position::BLACK,Position::BLACK,Position::BLACK,Position::BLACK},
+							{UnplayablePosition::UNPLAYABLE,Position::BLACK,Position::BLACK,Position::BLACK,Position::BLACK,Position::BLACK,Position::BLACK,UnplayablePosition::UNPLAYABLE} };*/
 		board.setBoard(arr4);
 		board.drawBoard();
 		cout << "\n";

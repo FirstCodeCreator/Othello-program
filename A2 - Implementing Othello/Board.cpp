@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <string>
 #include "Board.h"
 using namespace std;
 
@@ -65,20 +66,208 @@ void Board::save()
 void Board::takeTurn()
 {
 	string inputPosition;
-	int positionX;
-	int positionY;
+	int row;
+	int col;
+	char playerColor = current.getName().compare(first.getName()) == 0 ? 'B' : 'W';
 
-	cout << "\nTaking turn of " << current.getName() << endl;
-	cout << "Choose an (x,y) position (ex: A3):" << endl;
-	cin >> inputPosition;
+	while (true)
+	{
+		//input the position
+		cout << "\nTaking turn of " << current.getName() << endl;
+		cout << "Choose an (x,y) position (ex: A3):" << endl;
+		cin >> inputPosition;
 
-	//check if the user can play it there
+		switch (inputPosition.at(0))
+		{
+		case 'A':
+			col = 0;
+			break;
+		case 'B':
+			col = 1;
+			break;
+		case 'C':
+			col = 2;
+			break;
+		case 'D':
+			col = 3;
+			break;
+		case 'E':
+			col = 4;
+			break;
+		case 'F':
+			col = 5;
+			break;
+		case 'G':
+			col = 6;
+			break;
+		case 'H':
+			col = 7;
+			break;
+		default:
+			col = -1;
+			break;
+		}
 
-	//play it there
-	//board[positionX][positionY] = current.getName().compare(first.getName()) == 0 ? 'B' : 'W';
+		// "- '0'" is to set the char to int and the "-1" is to set it for array since the board rows start at one
+		row = inputPosition.at(1) - '0' - 1; 
 
-	//flip if needed
+		//check for wrong inputs
+		if (col == -1 || !(row >= 0 && row <= 7))
+		{
+			cout << "The position input is wrong. Please enter a right position";
+			continue;
+		}
 
+		//check if the (x,y) position is empty
+		if (board[row][col] != ' ')
+		{
+			cout << "The position is already taken by a chip. Please enter another position";
+			continue;
+		}
+
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////check if the move is legal
+		bool isLegal = false;
+		char oppositeColor = playerColor == 'B' ? 'W' : 'B';
+
+		int tempX = row;
+		int tempY = col;
+		//check for adjacent piece to the left
+		if (row > 0)
+		{
+			if (board[row - 1][col] == oppositeColor)
+			{
+				while (tempX > 0)
+				{
+					tempX--;
+
+					if (board[tempX][col] == oppositeColor)
+					{
+						continue;
+					}
+					else if (board[tempX][col] == playerColor)
+					{
+						isLegal = true;
+						cout << "left True";
+						break;
+					}
+					else if (board[tempX][col] == ' ' || board[tempX][col] == '*')
+					{
+						break;
+					}
+				}
+			}
+		}
+		
+		//check for adjacent piece to the top
+		if (col > 0)
+		{
+			tempX = row;
+			tempY = col;
+			
+			if (board[row][col - 1] == oppositeColor)
+			{
+				while (tempY > 0)
+				{
+					tempY--;
+
+					if (board[row][tempY] == oppositeColor)
+					{
+						continue;
+					}
+					else if (board[row][tempY] == playerColor)
+					{
+						isLegal = true;
+						cout << "TOP True";
+						break;
+					}
+					else if (board[row][tempY] == ' ' || board[row][tempY] == '*')
+					{
+						break;
+					}
+				}
+			}
+		}
+
+		//check for adjacent piece to the right
+		if (row < 7)
+		{
+			tempX = row;
+			tempY = col;
+			
+			if (board[row + 1][col] == oppositeColor)
+			{
+				while (tempX < 7)
+				{
+					tempX++;
+
+					if (board[tempX][col] == oppositeColor)
+					{
+						continue;
+					}
+					else if (board[tempX][col] == playerColor)
+					{
+						isLegal = true;
+						cout << "right true";
+						break;
+					}
+					else if (board[tempX][col] == ' ' || board[tempX][col] == '*')
+					{
+						break;
+					}
+				}
+			}
+		}
+
+		//check for adjacent piece to the bottom
+		if (col < 7)
+		{
+			tempX = row;
+			tempY = col;
+			
+			if (board[row][col + 1] == oppositeColor)
+			{
+				while (tempY < 7)
+				{
+					tempY++;
+
+					if (board[row][tempY] == oppositeColor)
+					{
+						continue;
+					}
+					else if (board[row][tempY] == playerColor)
+					{
+						isLegal = true;
+						cout << "bottom true";
+						break;
+					}
+					else if (board[row][tempY] == ' ' || board[row][tempY] == '*')
+					{
+						break;
+					}
+				}
+			}
+		}
+
+		if (!isLegal)
+		{
+			cout << "row:" << row << " col:" << col;
+			cout << "The position is not playable according to the rules. Please enter another position";
+			continue;
+		}
+
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+		//play it there
+		board[row][col] = playerColor;
+
+		//flip if needed
+		flip(row,col);
+
+
+		cout << "X: " << row << " Y: " << col << endl;
+
+		break;
+	}
 
 	// change the name of the current user
 	if (current.getName().compare(first.getName()) == 0){
@@ -138,7 +327,6 @@ Board Board::load()
 	cout << "Name of player 1: " << first.getName() << endl;
 	cout << "Name of player 2: " << second.getName() << endl;
 	cout << "Name of current player: " << current.getName() << endl;
-	drawBoard();
 
 	play();
 
@@ -150,9 +338,12 @@ void Board::play()
 	int option=3;
 	while (option==3)
 	{
-		if (!canPlay(first) && !canPlay(second)) ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////nobody canmove)
+		drawBoard();
+		showPoints();
+
+		if (!canPlay(first) && !canPlay(second))
 		{
-			cout << "Nobody can move :(" << endl;
+			cout << "Nobody can move." << endl;
 
 			int nbOfWhite = 0;
 			int nbOfBlack = 0;
@@ -174,31 +365,46 @@ void Board::play()
 				cout << "It is a tie.";
 			}
 			else {
-				cout << (nbOfWhite > nbOfBlack ? first.getName() : second.getName()) << " won! Congratulations!!!" << endl;
+				cout << (nbOfBlack > nbOfWhite ? first.getName() : second.getName()) << " won! Congratulations!!!" << endl;
 			}
 
-			cout << "Nobody can move :(" << endl;
 			option = -1;
 		}
 		else if (current.getName().compare(first.getName()) == 0)
 		{
 			cout << endl << first.getName() << ", what do you want to do?" << endl;
 			cout << "1.Save \n2.Concede" << endl;
-			if (canPlay(first))////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////canmove)
+			if (canPlay(first))
 			{
 				cout << "3.Move" << endl;
+				cin >> option;
+				switch (option)
+				{
+				case 1: save(); option = -1; break;
+				case 2: cout << current.getName() << " conceded and have lost :(" << endl; option = -1; break;
+				case 3: takeTurn(); break;
+				default: break;
+				}
 			}
 			else 
 			{
-				cout << "You cannot move" << endl;
-			}
-			cin >> option;
-			switch (option)
-			{
-			case 1: save(); option = -1; break;
-			case 2: cout << current.getName() << " conceded and have lost :(" << endl; option = -1; break;
-			case 3: takeTurn(); break;
-			default: break;
+				cout << "3.Skip turn" << endl << "You cannot move" << endl;
+				cin >> option;
+				switch (option)
+				{
+				case 1: save(); option = -1; break;
+				case 2: cout << current.getName() << " conceded and have lost :(" << endl; option = -1; break;
+				case 3: 
+					// change the name of the current user
+					if (current.getName().compare(first.getName()) == 0) {
+						current.setName(second.getName());
+					}
+					else {
+						current.setName(first.getName());
+					}
+					break;
+				default: break;
+				}
 			}
 		}
 
@@ -206,7 +412,7 @@ void Board::play()
 		{
 			cout << endl << second.getName() << ", what do you want to do?" << endl;
 			cout << "1.Save \n2.Concede" << endl;
-			if (canPlay(second))////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////canmove)
+			if (canPlay(second))
 			{
 				cout << "3.Move" << endl;
 				cin >> option;
@@ -220,12 +426,21 @@ void Board::play()
 			}
 			else
 			{
-				cout << "You cannot move" << endl;
+				cout << "3.Skip turn" << endl << "You cannot move" << endl;
 				cin >> option;
 				switch (option)
 				{
 				case 1: save(); option = -1; break;
-				case 2: cout << current.getName() << " conceded and have lost :(" << endl;; option = -1; break;
+				case 2: cout << current.getName() << " conceded and have lost :(" << endl; option = -1; break;
+				case 3: 
+					// change the name of the current user
+					if (current.getName().compare(first.getName()) == 0) {
+						current.setName(second.getName());
+					}
+					else {
+						current.setName(first.getName());
+					}
+					break;
 				default: break;
 				}
 			}
@@ -378,4 +593,171 @@ bool Board::canPlay(Player p)
 	}
 
 	return false;
+}
+
+void Board::flip(int row, int col)
+{
+	//check which player it is
+	char playerColor = current.getName().compare(first.getName()) == 0 ? 'B' : 'W';
+	char oppositeColor = playerColor == 'B' ? 'W' : 'B';
+	
+	int tempX = row;
+	int tempY = col;
+
+	//check for adjacent piece to the left
+	if (row > 0)
+	{
+		if (board[row - 1][col] == oppositeColor)
+		{
+			while (tempX > 0)
+			{
+				tempX--;
+
+				if (board[tempX][col] == oppositeColor)
+				{
+					continue;
+				}
+				else if (board[tempX][col] == playerColor)
+				{
+					//go back and change color
+					while (tempX < row)
+					{
+						tempX++;
+						board[tempX][col] = playerColor;
+					}
+					break;
+				}
+				else if (board[tempX][col] == ' ' || board[tempX][col] == '*')
+				{
+					break;
+				}
+			}
+		}
+	}
+
+	//check for adjacent piece to the top
+	if (col > 0)
+	{
+		tempX = row;
+		tempY = col;
+
+		if (board[row][col - 1] == oppositeColor)
+		{
+			while (tempY > 0)
+			{
+				tempY--;
+
+				if (board[row][tempY] == oppositeColor)
+				{
+					continue;
+				}
+				else if (board[row][tempY] == playerColor)
+				{
+					//go back and change color
+					while (tempY < col)
+					{
+						tempY++;
+						board[row][tempY] = playerColor;
+					}
+					break;
+				}
+				else if (board[row][tempY] == ' ' || board[row][tempY] == '*')
+				{
+					break;
+				}
+			}
+		}
+	}
+
+	//check for adjacent piece to the right
+	if (row < 7)
+	{
+		tempX = row;
+		tempY = col;
+
+		if (board[row + 1][col] == oppositeColor)
+		{
+			while (tempX < 7)
+			{
+				tempX++;
+
+				if (board[tempX][col] == oppositeColor)
+				{
+					continue;
+				}
+				else if (board[tempX][col] == playerColor)
+				{
+					//go back and change color
+					while (tempX > row)
+					{
+						tempX--;
+						board[tempX][col] = playerColor;
+					}
+					break;
+				}
+				else if (board[tempX][col] == ' ' || board[tempX][col] == '*')
+				{
+					break;
+				}
+			}
+		}
+	}
+
+	//check for adjacent piece to the bottom
+	if (col < 7)
+	{
+		tempX = row;
+		tempY = col;
+		
+		if (board[row][col + 1] == oppositeColor)
+		{
+			while (tempY < 7)
+			{
+				tempY++;
+
+				if (board[row][tempY] == oppositeColor)
+				{
+					continue;
+				}
+				else if (board[row][tempY] == playerColor)
+				{
+					//go back and change color
+					while (tempY > col)
+					{
+						tempY--;
+						board[row][tempY] = playerColor;
+					}
+					break;
+				}
+				else if (board[row][tempY] == ' ' || board[row][tempY] == '*')
+				{
+					break;
+				}
+			}
+		}
+	}
+}
+
+void Board::showPoints()
+{
+	int blackPoints = 0;
+	int whitePoints = 0;
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 8; j++)
+		{
+			if (board[i][j] == 'B')
+			{
+				blackPoints++;
+			}
+			else if (board[i][j] == 'W')
+			{
+				whitePoints++;
+			}
+		}
+	}
+
+	cout << "-----Points-----" << endl
+		 << "Black (" << first.getName() << "): " << blackPoints << endl
+		 << "White (" << second.getName() << "): " << whitePoints << endl;
 }

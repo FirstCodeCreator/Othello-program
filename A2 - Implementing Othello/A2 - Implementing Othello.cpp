@@ -26,6 +26,9 @@ int main()
     string StringOption2;
 
     cout << "What's up gamer. Wanna play a game?" << endl;
+    cout << "Here are the special rules:" << endl
+        << "- All corners are Unplayable" << endl
+        << "- Flips only occur in horizontal and vertical lines" << endl;
     cout << "Choose an option." << endl;
     cout << "1. Start a New Game \n2. Quit \n3. Load a Game!\n\n";
     cin >> nbOption;
